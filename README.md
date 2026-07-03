@@ -116,12 +116,108 @@ Screenshot to be added
 
 ## Running the Project
 
-1. Install dependencies.
-2. Download the freMTPL2 dataset.
-3. Execute the Python modeling pipeline.
-4. Generate the Excel pricing workbook.
-5. Open the Power BI dashboard.
-6. Review the Alteryx workflow.
+### 1. Clone the repository
+
+### 2. Install Python dependencies
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+On Windows, `python` may be used instead of `python3`.
+
+### 3. Download the freMTPL2 data
+
+```bash
+python3 python/download_data.py
+```
+
+This downloads the raw policy-level frequency data and claim severity data used by the project.
+
+### 4. Run the SQL data-preparation pipeline
+
+```bash
+python3 python/run_sql_pipeline.py
+```
+
+This creates the SQL-based model-point, QA, and segment-analysis outputs.
+
+### 5. Run the actuarial pricing models
+
+For a smaller development run:
+
+```bash
+python3 python/real_auto_pricing_model.py --sample-size 100000
+```
+
+For the full dataset:
+
+```bash
+python3 python/real_auto_pricing_model.py --sample-size full
+```
+
+The modeling pipeline:
+
+* creates the cleaned model-point dataset;
+* fits Poisson, Gamma, and Tweedie GLMs;
+* scores policy-level risks;
+* generates rating factors;
+* evaluates model performance;
+* creates lift chart and scenario outputs;
+* exports QA, pricing, and governance files.
+
+### 6. Generate the Excel pricing workbook
+
+```bash
+python3 python/build_excel_tool.py
+```
+
+The generated workbook is saved in:
+
+```text
+excel/freMTPL2_Auto_Pricing_Tool.xlsx
+```
+
+The macro-enabled version is available as:
+
+```text
+excel/freMTPL2_Auto_Pricing_Tool.xlsm
+```
+
+### 7. Review the final outputs
+
+Key generated outputs are stored in:
+
+```text
+outputs/
+charts/
+models/
+excel/
+```
+
+The Power BI dashboard uses the Python-generated files in `outputs/`, while the Excel/VBA calculator uses model-derived rating factors and pricing assumptions.
+
+### 8. Open the Power BI dashboard
+
+Open:
+
+```text
+dashboard/freMTPL2_Auto_Pricing_Dashboard.pbix
+```
+
+The dashboard presents portfolio KPIs, model performance, technical premium segmentation, lift diagnostics, scenario sensitivity, and QA/governance results.
+
+### 9. Review the Alteryx workflow
+
+Open:
+
+```text
+alteryx/freMTPL2_Data_Prep_Workflow.yxmd
+```
+
+The Alteryx workflow provides the visual ETL implementation for policy/claims preparation, aggregation, joins, QA checks, and model-point file creation.
+
+Alteryx serves as the primary visual ETL workflow, while companion SQL scripts demonstrate the equivalent database-style joins, aggregations, QA checks, and segment analyses.
 
 ## Project Highlights
 
