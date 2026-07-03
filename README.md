@@ -1,4 +1,3 @@
-# Auto-Insurance-Technical-Pricing-Model
 # Auto Insurance Technical Pricing Model
 
 ### End-to-End Actuarial Pricing Workflow Using Real Motor Insurance Claims Data
